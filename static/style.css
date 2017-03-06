@@ -1,0 +1,9 @@
+.jumbotron{
+    background-color:#A05F5F;
+    text-align:center;
+}
+
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
