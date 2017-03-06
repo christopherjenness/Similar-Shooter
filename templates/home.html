@@ -2,31 +2,54 @@
 
 {% block content %}
 
+
 <div class="col-sm-6 col-sm-offset-3">
 
-<form action="" method=post enctype=multipart/form-data class="form-horizontal">
-    <div class="form-group">
-      <label>Player:</label>
-      <input type=text name=player list="languages">
-        <datalist id="languages">
-          <option value="HTML">
-          <option value="CSS">
-          <option value="JavaScript">
-          <option value="Java">
-          <option value="Ruby">
-          <option value="PHP">
-          <option value="Go">
-          <option value="Erlang">
-          <option value="Python">
-          <option value="C">
-          <option value="C#">
-          <option value="C++">
-</datalist>
-    </div>
-    <input class="btn btn-primary btn-lg" type=submit value=Find Similar></input>
-
-        </form>
+    <input type="text" id="ajax" list="json-datalist" placeholder="e.g. datalist">
+<datalist id="json-datalist"></datalist>
 
 </div>
+
+<script>
+var dataList = document.getElementById('json-datalist');
+var input = document.getElementById('ajax');
+
+// Create a new XMLHttpRequest.
+var request = new XMLHttpRequest();
+
+// Handle state changes for the request.
+request.onreadystatechange = function(response) {
+  if (request.readyState === 4) {
+    if (request.status === 200) {
+      // Parse the JSON
+      var jsonOptions = JSON.parse(request.responseText);
+
+      // Loop over the JSON array.
+      jsonOptions.forEach(function(item) {
+        // Create a new <option> element.
+        var option = document.createElement('option');
+        // Set the value using the item in the JSON array.
+        option.value = item;
+        // Add the <option> element to the <datalist>.
+        dataList.appendChild(option);
+      });
+
+      // Update the placeholder text.
+      input.placeholder = "e.g. datalist";
+    } else {
+      // An error occured :(
+      input.placeholder = "Couldn't load datalist options :(";
+    }
+  }
+};
+
+// Update the placeholder text.
+input.placeholder = "Loading options...";
+
+// Set up and make the request.
+request.open('GET', 'static/players.json', true);
+request.send();
+
+</script>
 
 {% endblock %}
