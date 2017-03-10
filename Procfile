@@ -1,1 +1,1 @@
-web: gunicorn similar-shooter:app
+web: gunicorn app:app
