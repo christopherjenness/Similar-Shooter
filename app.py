@@ -31,3 +31,7 @@ def result():
         similarities = analysis.get_similar_shooters(player_name, FGA, FGP)
         players = list(similarities.sort('KL-divergence', ascending=True).head()['player'])
         return render_template('results.html', players=players, target=player_name)
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
