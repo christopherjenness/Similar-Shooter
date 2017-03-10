@@ -7,6 +7,9 @@ from wtforms import Form, SelectField
 from analysis import analysis
 from shotchart import shotchart
 import os
+import matlotlib
+
+matplotlib.use('Agg')
 
 app = Flask(__name__)
 
