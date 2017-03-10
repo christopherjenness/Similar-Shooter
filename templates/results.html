@@ -3,12 +3,11 @@
 {% block content %}
 
 {% if players %}
-<div class="col-sm-3 col-sm-offset-1">
+
+
+<div class="col-sm-4 col-sm-offset-3">
     <h2 style=" position:absolute; text-align:center;">{{ target }}</h2>
     <img src="static/images/{{ target }}.png" alt={{ target }} />
-</div>
-
-<div class="col-sm-3 col-sm-offset-2">
     {% for player in players: %}
 
     <h2 style=" position:absolute; text-align:center;">{{player}}</h2>
