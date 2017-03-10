@@ -4,10 +4,11 @@
 
 
 <div class="col-sm-6 col-sm-offset-3">
-
-    <input type="text" id="ajax" list="json-datalist" placeholder="e.g. datalist">
-<datalist id="json-datalist"></datalist>
-
+    <form action="/result" method=post enctype=multipart/form-data class="form-horizontal">
+        <input type="text" name='playername' id="ajax" list="json-datalist" placeholder="e.g. datalist">
+        <datalist id="json-datalist"></datalist>
+        <input class="btn btn-primary btn-lg" type=submit value="Get Similar">
+    </form>
 </div>
 
 <script>
@@ -35,7 +36,7 @@ request.onreadystatechange = function(response) {
       });
 
       // Update the placeholder text.
-      input.placeholder = "e.g. datalist";
+      input.placeholder = "e.g. DeAndre Jordan";
     } else {
       // An error occured :(
       input.placeholder = "Couldn't load datalist options :(";
