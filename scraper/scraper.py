@@ -12,6 +12,7 @@ import pickle
 def get_player_urls(year):
     """
     Get BR URLs for all players in a given year
+
     Args:
         year (int): year to get active players
 
@@ -29,6 +30,7 @@ def get_player_urls(year):
 def get_player_stats(url):
     """
     Gets shooting data (FGA and FG% for a player)
+
     Args:
         url (str): BR base URL for a player
             example: 'players/a/adamsst01' (Steven Adams...so hot right now...)
