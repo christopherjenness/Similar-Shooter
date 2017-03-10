@@ -1,15 +1,15 @@
 """
 Flask app for finding players with similar shot charts
 """
+import matlotlib
+
+matplotlib.use('Agg')
 
 from flask import Flask, render_template, request
 from wtforms import Form, SelectField
 from analysis import analysis
 from shotchart import shotchart
 import os
-import matlotlib
-
-matplotlib.use('Agg')
 
 app = Flask(__name__)
 
