@@ -10,6 +10,7 @@
     <title>{% block title %}{% endblock %}Similar-Shooter</title>
     {% endblock %}
   </head>
+
   <body>
 
   <div class="jumbotron">
@@ -17,16 +18,15 @@
   <p>Find basketball players with similar shot charts</p><br>
       <a class="btn btn-primary btn-lg" href="/" role="button">Home</a>
       <a class="btn btn-primary btn-lg" href="https://github.com/christopherjenness/Similar-Shooter" role="button">Source</a>
+  </div>
 
-</div>
-
-    <div id="content">{% block content %}{% endblock %}</div>
+  <div id="content">{% block content %}{% endblock %}</div>
 
 <p></p>
       {% block footer %}
       {% endblock %}
-    </div>
 
   </body>
+
 </html>
 

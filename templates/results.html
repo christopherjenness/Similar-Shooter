@@ -4,22 +4,17 @@
 
 {% if players %}
 <div class="col-sm-3 col-sm-offset-1">
-
-            <h2 style=" position:absolute; text-align:center;">{{ target }}</h2>
-            <img src="static/images/{{ target }}.png" alt={{ target }} />
-
+    <h2 style=" position:absolute; text-align:center;">{{ target }}</h2>
+    <img src="static/images/{{ target }}.png" alt={{ target }} />
 </div>
 
 <div class="col-sm-3 col-sm-offset-2">
     {% for player in players: %}
 
     <h2 style=" position:absolute; text-align:center;">{{player}}</h2>
-            <img src="static/images/{{ player }}.png" alt={{ player}} />
+    <img src="static/images/{{ player }}.png" alt={{ player}} />
     {% endfor %}
 </div>
-
-
-
   {% endif %}
 
 {% endblock %}
