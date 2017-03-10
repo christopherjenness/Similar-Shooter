@@ -1,0 +1,7 @@
+Flask==0.12
+matplotlib==1.5.3
+pandas==0.19.2
+scipy==0.18.1
+seaborn==0.7.1
+WTForms==2.1
+beautifulsoup4==4.5.3
