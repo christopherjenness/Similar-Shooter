@@ -1,7 +1,7 @@
 """
 Flask app for finding players with similar shot charts
 """
-import matlotlib
+import matplotlib
 
 matplotlib.use('Agg')
 
