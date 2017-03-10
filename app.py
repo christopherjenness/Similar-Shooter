@@ -1,20 +1,30 @@
+"""
+Flask app for finding players with similar shot charts
+"""
+
 from flask import Flask, render_template, request
 from wtforms import Form, SelectField
 from analysis import analysis
 from shotchart import shotchart
 
-
-
 app = Flask(__name__)
-
-
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    """
+    Function called on main page
+    Returns:
+        Renders a template of home page
+    """
     return render_template('home.html')
 
 @app.route('/result',methods = ['POST', 'GET'])
 def result():
+    """
+    Function called after a player is selected
+    Returns:
+        Reners a template of results with target player and matches
+    """
     if request.method == 'POST':
         player_name = request.form['playername']
         FGA, FGP = analysis.load_data()
