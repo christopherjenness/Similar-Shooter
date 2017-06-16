@@ -6,7 +6,9 @@ install:
     - pip install -r requirements.txt
     - pip install pytest-cov
     - pip install coveralls
+    - pip install lxml
+    - pip install html5lib
 # command to run tests
-script: pytest tests/ --cov
+script: pytest tests/ --cov=.
 after_success:
     - coveralls
