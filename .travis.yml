@@ -6,6 +6,6 @@ install:
     - pip install -r requirements.txt
     - pip install coveralls
 # command to run tests
-script: pytest --cov bootstrap
+script: pytest tests/ --cov
 after_success:
     - coveralls
