@@ -1,4 +1,7 @@
 # Similar-Shooter
+
+![CI](https://travis-ci.org/christopherjenness/Similar-Shooter.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/christopherjenness/Similar-Shooter/badge.svg?branch=master)](https://coveralls.io/github/christopherjenness/Similar-Shooter?branch=master)
+
 Find basketball players with similar shot charts
 
 # Examples
