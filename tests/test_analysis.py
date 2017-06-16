@@ -1,5 +1,5 @@
+import coveralls
 from analysis.analysis import load_data, get_similar_shooters
-
 
 def test_get_similar_shooters():
     FGA, FGP = load_data()

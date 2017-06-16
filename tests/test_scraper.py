@@ -1,4 +1,5 @@
 import mock
+import coveralls
 from scraper.scraper import get_player_urls, get_player_stats, \
     make_shooting_url, make_league_dicts, append_missing_data, \
     make_league_dfs
