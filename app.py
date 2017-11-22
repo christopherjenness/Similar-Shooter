@@ -5,13 +5,13 @@ import matplotlib
 
 matplotlib.use('Agg')
 
-from flask import Flask, render_template, request
-from wtforms import Form, SelectField
-from analysis import analysis
-from shotchart import shotchart
 import os
+from flask import Flask, render_template, request
+from analysis import analysis
+
 
 app = Flask(__name__)
+
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -22,7 +22,8 @@ def home():
     """
     return render_template('home.html')
 
-@app.route('/result',methods = ['POST', 'GET'])
+
+@app.route('/result', methods=['POST', 'GET'])
 def result():
     """
     Function called after a player is selected
@@ -33,8 +34,11 @@ def result():
         player_name = request.form['playername']
         FGA, FGP = analysis.load_data()
         similarities = analysis.get_similar_shooters(player_name, FGA, FGP)
-        players = list(similarities.sort('KL-divergence', ascending=True).head()['player'])
-        return render_template('results.html', players=players, target=player_name)
+        players = list(similarities.sort('KL-divergence',
+                                         ascending=True).head()['player'])
+        return render_template('results.html', players=players,
+                               target=player_name)
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
