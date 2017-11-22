@@ -22,7 +22,7 @@ def test_get_player_urls():
 def test_get_shot_data():
     url = 'http://www.basketball-reference.com/players/a/adamsst01/shooting/2017'
     top, left, result = get_shot_data(url)
-    assert len(top) - 1 == len(left) == len(result)
+    assert len(top) == len(left) == len(result)
     assert len(top) > 100
 
 

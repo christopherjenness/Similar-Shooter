@@ -47,7 +47,8 @@ def get_shot_data(url):
     top = re.findall ( 'top:(.*?)px;', html, re.DOTALL)
     left = re.findall ( 'left:(.*?)px;', html, re.DOTALL)
     result = re.findall ( 'remaining<br>(.*?) ', html, re.DOTALL)
-    return top, left, result
+    shots = len(result)
+    return top[-shots:], left[-shots:], result
     
 def make_shotchart(top, left, result, player_name, cache=True):
     """
@@ -63,11 +64,11 @@ def make_shotchart(top, left, result, player_name, cache=True):
     Returns: None
     """
     plt.figure()
-    df = pd.DataFrame({'top': top[1:], 'left': left, 'result': result})
+    df = pd.DataFrame({'top': top, 'left': left, 'result': result})
     made = df[df.result=='Made']
     missed = df[df.result=='Missed']
 
-    im = plt.imread('court.png')
+    im = plt.imread('shotchart/court.png')
     implot = plt.imshow(im)
     
     plt.scatter(list(missed.left), list(missed.top), c=sns.color_palette()[2], alpha=0.7, linewidths=0)
@@ -109,6 +110,7 @@ def save_shot_charts(year):
                 print("Unexpected error:", sys.exc_info()[0])
                 attempts += 1
                 time.sleep(10)
+
 
 if __name__ == '__main__':
     YEAR = 2017
