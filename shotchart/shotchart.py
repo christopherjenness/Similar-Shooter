@@ -12,6 +12,7 @@ import time
 import sys
 import re
 
+
 def get_player_urls(year):
     """
     Get BR URLs for all players in a given year
@@ -19,16 +20,18 @@ def get_player_urls(year):
     Args:
         year (int): year to get active players
 
-    Returns: list
-        list of BR URLs
+    Returns: dict
+        dict of BBallref player urls, {'Player Name': 'URL'}
     """
-    url = 'http://www.basketball-reference.com/leagues/NBA_' + str(year) + '_totals.html'
+    url = 'http://www.basketball-reference.com/leagues/NBA_' \
+          + str(year) + '_totals.html'
     soup = BeautifulSoup(urlopen(url).read(), "lxml")
     urls = {}
     for anchor in soup.findAll('a', href=True):
         if anchor['href'].startswith('/players/') and len(anchor['href']) > 10:
             urls[anchor.text] = anchor['href']
     return urls
+
 
 def get_shot_data(url):
     """
@@ -37,19 +40,20 @@ def get_shot_data(url):
         url (str): BR URL for a given player's shots
             Example: 'http://www.basketball-reference.com/players/a/adamsst01/shooting/2017/'
 
-    Returns: list, list, list
+    Returns: tuple(list, list, list)
         3 lists of:
             top (y location)
             left (x location)
-            result (string in ['Made', 'Missed'])
+            result (str in ['Made', 'Missed'])
     """
     html = str(urlopen(url).read())
-    top = re.findall ( 'top:(.*?)px;', html, re.DOTALL)
-    left = re.findall ( 'left:(.*?)px;', html, re.DOTALL)
-    result = re.findall ( 'remaining<br>(.*?) ', html, re.DOTALL)
+    top = re.findall('top:(.*?)px;', html, re.DOTALL)
+    left = re.findall('left:(.*?)px;', html, re.DOTALL)
+    result = re.findall('remaining<br>(.*?) ', html, re.DOTALL)
     shots = len(result)
     return top[-shots:], left[-shots:], result
-    
+
+
 def make_shotchart(top, left, result, player_name, cache=True):
     """
     Makes shotchart of a given player
@@ -65,20 +69,22 @@ def make_shotchart(top, left, result, player_name, cache=True):
     """
     plt.figure()
     df = pd.DataFrame({'top': top, 'left': left, 'result': result})
-    made = df[df.result=='Made']
-    missed = df[df.result=='Missed']
+    made = df[df.result == 'Made']
+    missed = df[df.result == 'Missed']
 
     im = plt.imread('shotchart/court.png')
-    implot = plt.imshow(im)
-    
-    plt.scatter(list(missed.left), list(missed.top), c=sns.color_palette()[2], alpha=0.7, linewidths=0)
-    plt.scatter(list(made.left), list(made.top), c=sns.color_palette()[1], alpha=0.7, linewidths=0)
+    plt.imshow(im)
+    plt.scatter(list(missed.left), list(missed.top),
+                c=sns.color_palette()[2], alpha=0.7, linewidths=0)
+    plt.scatter(list(made.left), list(made.top),
+                c=sns.color_palette()[1], alpha=0.7, linewidths=0)
     plt.axis('off')
-    if cache==True:
+    if cache:
         plt.savefig('images/' + player_name)
     else:
         plt.show()
     plt.close()
+
 
 def make_shooting_url(baseurl):
     """
@@ -86,6 +92,7 @@ def make_shooting_url(baseurl):
     """
     baseurl = os.path.splitext(baseurl)[0]
     return 'http://www.basketball-reference.com' + baseurl + '/shooting/2017/'
+
 
 def save_shot_charts(year):
     """
