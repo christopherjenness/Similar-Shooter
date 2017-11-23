@@ -42,18 +42,32 @@ def get_player_stats(url):
         DataFrame with cols=[Distance, FGA, FG%] for a given player
     """
     html = str(urlopen(url).read())
-    df = pd.read_html(html)[0]
-    distance_df = df[df[1].isin(['At Rim', '3 to <10 ft',
-                                 '10 to <16 ft', '16 ft to <3-pt',
-                                 '3-pt'])]
-    distance_df = distance_df[[1, 3, 4]]
-    distance_df.columns = ['Distance', 'FGA', 'FG%']
-    distance_df['FGA'] = distance_df['FGA'].astype(int) + 1
-    distance_df['FG%'] = distance_df['FG%'].astype(float) + 0.001
+    df = (pd.read_html(html)[0]
+          .pipe(get_dist_stats)
+          .drop([0, 2, 5, 6, 7, 8, 9, 10], axis=1)
+          .rename(columns={1: 'Distance', 3: 'FGA', 4: 'FG%'})
+          .assign(FGA=lambda x: x['FGA'].astype(int) + 1)
+          .assign(**{'FG%': lambda x: x['FG%'].astype(float) + 0.001}))
     soup = BeautifulSoup(html, "lxml")
     name = soup.title.string.replace(' 2016-17 Shooting | Basketball-Reference.com',
                                      '')
-    return name, distance_df
+    return name, df
+
+
+def get_dist_stats(df):
+    """
+    filters only shots by distance data from BBallref data
+
+    Args:
+        df (pd.DataFrame): raw DataFrame of shot data
+
+    Returns: pd.DataFrame
+        Filtered DataFrame of only shot distance
+    """
+    distance_df = df[df[1].isin(['At Rim', '3 to <10 ft',
+                                 '10 to <16 ft', '16 ft to <3-pt',
+                                 '3-pt'])]
+    return distance_df
 
 
 def make_shooting_url(baseurl):
@@ -68,6 +82,7 @@ def make_shooting_url(baseurl):
 def make_league_dicts(year, cache=True):
     """
     Make dictionaries of player: [FGAs..] and player: [FG%...]
+
     Args:
         year (int): Year to get all player data for
         cache (bool):  If True, pickle dicts before returning
@@ -89,9 +104,9 @@ def make_league_dicts(year, cache=True):
                 break
             except:
                 print(url)
-                attempts +=1
+                attempts += 1
                 time.sleep(10)
-    if cache == True:
+    if cache:
         pickle.dump(FGA_dict, open("data/FGA.p", "wb"))
         pickle.dump(FGpercent_dict, open("data/FG%.p", "wb"))
     return FGA_dict, FGpercent_dict
